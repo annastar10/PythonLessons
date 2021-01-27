@@ -11,6 +11,7 @@ print(my_tuple.index("twenty",6))
 print(my_tuple.count(8))
 a=2
 b=3
+
 # tmp=a
 # a=b
 # b=tmp
