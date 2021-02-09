@@ -37,7 +37,6 @@ myString71 = 'qwerty'
 myString72 = 'tpoiuyt'
 once_occur_in_both = [chr for chr in set(myString72).union(set(myString71)) if
                       myString71.count(chr) == 1 and myString72.count(chr) == 1]
-print(once_occur_in_both)
 
 # zadanie 8
 slovar8 = {
