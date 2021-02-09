@@ -12,32 +12,32 @@ for key, value in enumerate(myList1):
 
 # zadanie2
 myList2 = ['qwerty', 'asdfg', 'zxcvb', 'poiuy', 'amnbvc']
-result2 = [v for v in myList2 if v.startswith('a')]
+result2 = [s for s in myList2 if s.startswith('a')]
 
 # zadanie 3
 myList3 = ['qwerty', 'asdfg', 'zxcvb', 'poiuy', 'mnabvc', 'kjhgfrt', 'bgfgvgakjh']
-result3 = [v for v in myList3 if 'a' in v]
+filter_by_char3 = [s for s in myList3 if 'a' in s]
 
 # zadanie 4
 myList4 = ['qwerty', 2, 'asdfg', 4, 'zxcvb', 'poiuy', 10, 'amnbvc']
-result4 = [v for v in myList4 if type(v) is str]
+only_strings_list4 = [s for s in myList4 if type(s) is str]
 
 # zadanie 5
 myString5 = 'qwertyqt'
-duplChars = [v for v in myString5 if myString5.count(v) > 1]
-result5 = list(dict.fromkeys(duplChars))
+remove_dupl_chars5 = list(set(myString5))
 
 # zadanie 6
 myString61 = 'qwerty'
 myString62 = 'tpoiuyt'
-duplChars = [v for v in myString61 + myString62 if myString61.count(v) > 0 and myString62.count(v) > 0]
-result6 = list(dict.fromkeys(duplChars))
+same_chr_in_both6 = [ch for ch in set(myString61).union(set(myString62)) if
+                     (ch in set(myString61)) and (ch in set(myString62))]
 
 # zadanie 7
 myString71 = 'qwerty'
 myString72 = 'tpoiuyt'
-duplChars = [v for v in myString61 + myString62 if myString71.count(v) == 1 and myString72.count(v) == 1]
-result7 = list(dict.fromkeys(duplChars))
+once_occur_in_both = [chr for chr in set(myString72).union(set(myString71)) if
+                      myString71.count(chr) == 1 and myString72.count(chr) == 1]
+print(once_occur_in_both)
 
 # zadanie 8
 slovar8 = {
