@@ -24,8 +24,8 @@ def read_json_datafile(path):
 
 
 def sort_keys_by_text_len(names_dict):
-    txt = names_dict['text']
-    return len(txt)
+    txt_list = names_dict['text'].split(' ')
+    return len(txt_list)
 
 
 def sort_keys_by_dod(names_dict):
@@ -55,4 +55,3 @@ if not json_data == '':
 
     # zadanie 4
     sorted_by_text_len = sorted(json_data, key=sort_keys_by_text_len)
-    pretty_print(sorted_by_text_len)
