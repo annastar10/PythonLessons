@@ -34,7 +34,7 @@ def write_file(path: str, data):
     fname, file_ext = os.path.splitext(path)
     if file_ext == '.csv':
         keys = data[0].keys()
-        with open(path, 'w', newline='')  as out_file:
+        with open(path, 'w', newline='') as out_file:
             dict_writer = csv.DictWriter(out_file, keys)
             dict_writer.writeheader()
             dict_writer.writerows(data)
@@ -52,7 +52,6 @@ content = 0
 if os.path.isfile(file):
     path = os.path.abspath(file)
     content = read_file(path)
-
 
 # zadanie 2
 # Будем использовать в качестве данных для записи, полученный контент из задания 1
