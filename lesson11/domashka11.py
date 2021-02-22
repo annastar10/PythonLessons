@@ -54,7 +54,7 @@ if not json_data == '':
 
     # zadanie 3
     sorted_by_dod = sorted(json_data, key=sort_keys_by_dod)
-    pretty_print(sorted_by_dod)
+
 
     # zadanie 4
     sorted_by_text_len = sorted(json_data, key=sort_keys_by_text_len)
