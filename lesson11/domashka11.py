@@ -32,7 +32,7 @@ def sort_keys_by_dod(names_dict):
     search = re.findall("\d+", names_dict['years'])
     # Здесь почему-то возника проблемка с кодировкой минус почемуто перекодировался
     txt_list = names_dict['years'].replace("\u2013", "-").split('-')
-    bc_check = re.findall('bc', txt_list[1], re.I) or (None)
+    bc_check = re.findall('bc', txt_list[1], re.I) or None
     if search is None:
         return 0
     dod = int(search[1])
