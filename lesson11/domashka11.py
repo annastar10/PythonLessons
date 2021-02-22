@@ -30,11 +30,13 @@ def sort_keys_by_text_len(names_dict):
 
 def sort_keys_by_dod(names_dict):
     search = re.findall("\d+", names_dict['years'])
+    # Здесь почему-то возника проблемка с кодировкой минус почемуто перекодировался
+    txt_list = names_dict['years'].replace("\u2013", "-").split('-')
+    bc_check = re.findall('bc', txt_list[1], re.I) or (None)
     if search is None:
         return 0
     dod = int(search[1])
-    dob = int(search[0])
-    if dod - dob < 0:
+    if not bc_check == None:
         return dod * -1
     return dod
 
@@ -52,6 +54,7 @@ if not json_data == '':
 
     # zadanie 3
     sorted_by_dod = sorted(json_data, key=sort_keys_by_dod)
+    pretty_print(sorted_by_dod)
 
     # zadanie 4
     sorted_by_text_len = sorted(json_data, key=sort_keys_by_text_len)
