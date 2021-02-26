@@ -49,7 +49,7 @@ try:
     abspath = os.path.abspath(file_name)
     json_data = read_json_datafile(abspath)
 except:
-    print('Exception !! Cannot open and read the file:' + file_name)
+    print("\n Exception !! Cannot open and read the file:" + file_name + "please check......")
 
 # zadanie 2
 if not json_data == '':
@@ -60,3 +60,5 @@ if not json_data == '':
 
     # zadanie 4
     sorted_by_text_len = sorted(json_data, key=sort_keys_by_text_len)
+else:
+    print("Missing json_data more likely file with data is empty")
