@@ -14,11 +14,6 @@ data.json - файл с данными о некоторых математик�
 '''
 
 
-def sort_keys_by_surname(names_dict):
-    surname = names_dict['name'].split(' ').pop().title()
-    return ord(surname[0:1])
-
-
 def read_json_datafile(path):
     return json.load(open(path, "r"))
 
@@ -41,19 +36,27 @@ def sort_keys_by_dod(names_dict):
     return year_of_death
 
 
+def pretty_print(json_obj):
+    json_formatted_str = json.dumps(json.loads(json.dumps(json_obj)), indent=4)
+    print(json_formatted_str)
+
+
 # zadanie 1
-file_name = "data.json"
+file_name = "datal.json"
 json_data = ''
 
 try:
     abspath = os.path.abspath(file_name)
     json_data = read_json_datafile(abspath)
-except:
-    print("\n Exception !! Cannot open and read the file:" + file_name + "please check......")
+
+except IOError as ex:
+    print("%s: %s" % (file_name, ex.strerror))
+
 
 # zadanie 2
 if not json_data == '':
-    sorted_by_names = sorted(json_data, key=sort_keys_by_surname)
+    sotrt_by_names = sorted(json_data, key=lambda n: n['name'].split(' ')[-1])
+    pretty_print(sotrt_by_names)
 
     # zadanie 3
     sorted_by_dod = sorted(json_data, key=sort_keys_by_dod)
@@ -61,4 +64,4 @@ if not json_data == '':
     # zadanie 4
     sorted_by_text_len = sorted(json_data, key=sort_keys_by_text_len)
 else:
-    print("Missing json_data more likely file with data is empty")
+    print("Missing json_data or json file is empty")
