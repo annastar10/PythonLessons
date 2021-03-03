@@ -36,9 +36,6 @@ def sort_keys_by_dod(names_dict):
     return year_of_death
 
 
-def pretty_print(json_obj):
-    json_formatted_str = json.dumps(json.loads(json.dumps(json_obj)), indent=4)
-    print(json_formatted_str)
 
 
 # zadanie 1
