@@ -2,9 +2,9 @@ import csv
 import json
 import re
 import requests
-from os import path
+import os
 from random import randint
-from time import sleep
+import time
 
 quote_qty = 5
 csv_filename = os.path.abspath('quotes.csv')
@@ -19,7 +19,7 @@ months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'Augus
 def getRandomQuotes(qty: int):
     quotes = []
     unique_quotes = []
-    safe_count = qty * 4  # safe  interval to get out from eternal while loop
+    safe_count = qty * 10  # safe  interval to get out from eternal while loop
     while len(quotes) <= qty - 1 and safe_count > 1:
         response = requests.request("GET", url, headers={}, data={})
         if not response.status_code == 200:
@@ -38,7 +38,7 @@ def getRandomQuotes(qty: int):
         quotes.append({"Author": author, "Quote": quote, "URL": quote_url})
         unique_quotes.append(quote)
         # чтобы не нагружать ресурс сделаем паузу
-        sleep(randint(1, 4))
+        time.sleep(randint(1, 5))
     return quotes
 
 
