@@ -52,15 +52,12 @@ def list_of_keys(n):
     return n['name'].split(' ')[-1]
 
 
-def pretty_print(json_obj):
-    json_formatted_str = json.dumps(json.loads(json.dumps(json_obj)), indent=4)
-    print(json_formatted_str)
 
 
 # zadanie 2
 if not json_data == '':
     sotrt_by_names = sorted(json_data, key=list_of_keys)
-    pretty_print(sotrt_by_names)
+
 
     # zadanie 3
     sorted_by_dod = sorted(json_data, key=sort_keys_by_dod)
