@@ -44,7 +44,7 @@ try:
     abspath = os.path.abspath(file_name)
     json_data = read_json_datafile(abspath)
 
-except IOError as ex:
+except FileNotFoundError as ex:
     print("%s: %s" % (file_name, ex.strerror))
 
 
