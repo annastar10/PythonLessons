@@ -42,11 +42,6 @@ def getRandomQuotes(qty: int):
     return quotes
 
 
-def pretty_print(json_obj):
-    json_formatted_str = json.dumps(json.loads(json.dumps(json_obj)), sort_keys=False, ensure_ascii=False, indent=4)
-    print(json_formatted_str)
-
-
 def read_txt_file(path: str):
     read_txt = open(path, "r").read()
     return re.findall("(?P<date>\\d+[^-]+)\\s+\\-\\s+(?P<author>.+)\\s+(birthday|death),\\s+author of (?P<story>.+)",
@@ -85,6 +80,7 @@ def write_file(path: str, data):
     elif file_ext == '.json':
         with open(path, 'w') as fp:
             json.dump(data, fp, indent=4)
+
 
 # zadanie 1
 map_result = getRandomQuotes(quote_qty)
