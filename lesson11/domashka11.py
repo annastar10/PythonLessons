@@ -52,12 +52,9 @@ def list_of_keys(n):
     return n['name'].split(' ')[-1]
 
 
-
-
 # zadanie 2
 if not json_data == '':
     sotrt_by_names = sorted(json_data, key=list_of_keys)
-
 
     # zadanie 3
     sorted_by_dod = sorted(json_data, key=sort_keys_by_dod)
