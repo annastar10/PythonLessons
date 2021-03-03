@@ -36,10 +36,8 @@ def sort_keys_by_dod(names_dict):
     return year_of_death
 
 
-
-
 # zadanie 1
-file_name = "datal.json"
+file_name = "data.json"
 json_data = ''
 
 try:
@@ -50,9 +48,18 @@ except IOError as ex:
     print("%s: %s" % (file_name, ex.strerror))
 
 
+def list_of_keys(n):
+    return n['name'].split(' ')[-1]
+
+
+def pretty_print(json_obj):
+    json_formatted_str = json.dumps(json.loads(json.dumps(json_obj)), indent=4)
+    print(json_formatted_str)
+
+
 # zadanie 2
 if not json_data == '':
-    sotrt_by_names = sorted(json_data, key=lambda n: n['name'].split(' ')[-1])
+    sotrt_by_names = sorted(json_data, key=list_of_keys)
     pretty_print(sotrt_by_names)
 
     # zadanie 3
