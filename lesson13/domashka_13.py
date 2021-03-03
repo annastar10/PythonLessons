@@ -1,14 +1,14 @@
 import csv
 import json
-import os
-import random
 import re
 import requests
-import time
+from os import path
+from random import randint
+from time import sleep
 
 quote_qty = 5
 csv_filename = os.path.abspath('quotes.csv')
-path = os.path.abspath('authors.txt')
+authors_path = os.path.abspath('authors.txt')
 
 url = "http://api.forismatic.com/api/1.0/?method=getQuote&format=json&jsonp=parseQuote"
 json_filename = os.path.abspath('authors.json')
@@ -38,7 +38,7 @@ def getRandomQuotes(qty: int):
         quotes.append({"Author": author, "Quote": quote, "URL": quote_url})
         unique_quotes.append(quote)
         # чтобы не нагружать ресурс сделаем паузу
-        time.sleep(random.randint(1, 4))
+        sleep(randint(1, 4))
     return quotes
 
 
@@ -86,15 +86,17 @@ def write_file(path: str, data):
         with open(path, 'w') as fp:
             json.dump(data, fp, indent=4)
 
-
+# zadanie 1
 map_result = getRandomQuotes(quote_qty)
 
 if len(map_result) == quote_qty:
     sotrt_by_names = sorted(map_result, key=lambda n: n['Author'])
+    # не смогу сделать имя файла по умолчанию в функции так как она записывает и json файл
     write_file(csv_filename, sotrt_by_names)
 else:
     print("Wrong amount of quotes \n", "Requested amount is: " + str(quote_qty) + "\n",
           "I've got: " + str(len(map_result)))
 
-converted = convert_list(read_txt_file(path))
+# zadanie 2
+converted = convert_list(read_txt_file(authors_path))
 write_file(json_filename, converted)
