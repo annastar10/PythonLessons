@@ -36,6 +36,10 @@ def sort_keys_by_dod(names_dict):
     return year_of_death
 
 
+def list_of_keys(n):
+    return n['name'].split(' ')[-1]
+
+
 # zadanie 1
 file_name = "data.json"
 json_data = ''
@@ -46,11 +50,6 @@ try:
 
 except FileNotFoundError as ex:
     print("%s: %s" % (file_name, ex.strerror))
-
-
-def list_of_keys(n):
-    return n['name'].split(' ')[-1]
-
 
 # zadanie 2
 if not json_data == '':

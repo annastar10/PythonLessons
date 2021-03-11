@@ -1,45 +1,45 @@
 import csv
 import json
-import re
-import requests
 import os
+import re
 from random import randint
-import time
+
+import requests
 
 quote_qty = 5
 csv_filename = os.path.abspath('quotes.csv')
 authors_path = os.path.abspath('authors.txt')
+authors_json = os.path.abspath('authors.json')
 
-url = "http://api.forismatic.com/api/1.0/?method=getQuote&format=json&jsonp=parseQuote"
-json_filename = os.path.abspath('authors.json')
+url = "http://api.forismatic.com/api/1.0/"
 months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November',
           'December']
 
 
-def getRandomQuotes(qty: int):
-    quotes = []
+def get_rnd_quotes(qty: int):
     unique_quotes = []
-    safe_count = qty * 10  # safe  interval to get out from eternal while loop
-    while len(quotes) <= qty - 1 and safe_count > 1:
-        response = requests.request("GET", url, headers={}, data={})
+    min_rnd_seed = 1
+    max_rnd_seed = 10000
+    # увеличиваем количество в 2 раза чтобы получить требуемое количество в случае повторов цитат
+    for number in range(1, qty * 2):
+        params = {"method": "getQuote",
+                  "format": "json",
+                  "key": randint(min_rnd_seed, max_rnd_seed),
+                  "lang": "ru"}
+        response = requests.get(url, params=params)
         if not response.status_code == 200:
-            safe_count -= 1
             continue
-        resp = json.loads(response.text)
-        author = resp.get("quoteAuthor")
-        quote = resp.get("quoteText")
-        quote_url = resp.get("quoteLink")
-        if any(quote in s for s in unique_quotes):
-            safe_count -= 1
+        new_quote = response.json()
+        author = new_quote.get("quoteAuthor")
+        quote = new_quote.get("quoteText")
+        quote_url = new_quote.get("quoteLink")
+        single_quote = {"Author": author, "Quote": quote, "URL": quote_url}
+        if (author == '' or quote == '' or quote_url == '') or (single_quote in unique_quotes):
             continue
-        if author == '' or quote == '' or quote_url == '':
-            safe_count -= 1
-            continue
-        quotes.append({"Author": author, "Quote": quote, "URL": quote_url})
-        unique_quotes.append(quote)
-        # чтобы не нагружать ресурс сделаем паузу
-        time.sleep(randint(1, 5))
-    return quotes
+        unique_quotes.append(single_quote)
+        if len(unique_quotes) >= qty:
+            break
+    return unique_quotes
 
 
 def read_txt_file(path: str):
@@ -67,32 +67,31 @@ def convert_list(data: list):
     return dict
 
 
-def write_file(path: str, data):
-    fname, file_ext = os.path.splitext(path)
-    if file_ext == '.csv':
-        keys = data[0].keys()
-        with open(path, 'w', newline='') as out_file:
-            dict_writer = csv.DictWriter(out_file, keys)
-            dict_writer.writeheader()
-            dict_writer.writerows(data)
-    elif file_ext == '.txt':
-        return open(path, "w").write(data)
-    elif file_ext == '.json':
-        with open(path, 'w') as fp:
-            json.dump(data, fp, indent=4)
+def write_csv(file_path: str, data):
+    keys = data[0].keys()
+    with open(file_path, 'w', newline='') as out_file:
+        dict_writer = csv.DictWriter(out_file, keys)
+        dict_writer.writeheader()
+        dict_writer.writerows(data)
+
+
+def write_json(txt_path: str, data):
+    with open(txt_path, 'w') as fp:
+        json.dump(data, fp, indent=4)
+    return 1
+
+
+def pretty_print(json_obj):
+    json_formatted_str = json.dumps(json.loads(json.dumps(json_obj)), sort_keys=False, ensure_ascii=False, indent=4)
+    print(json_formatted_str)
 
 
 # zadanie 1
-map_result = getRandomQuotes(quote_qty)
+map_result = get_rnd_quotes(quote_qty)
 
-if len(map_result) == quote_qty:
-    sotrt_by_names = sorted(map_result, key=lambda n: n['Author'])
-    # не смогу сделать имя файла по умолчанию в функции так как она записывает и json файл
-    write_file(csv_filename, sotrt_by_names)
-else:
-    print("Wrong amount of quotes \n", "Requested amount is: " + str(quote_qty) + "\n",
-          "I've got: " + str(len(map_result)))
+sotrt_by_names = sorted(map_result, key=lambda n: n['Author'])
+write_csv(csv_filename, sotrt_by_names)
 
 # zadanie 2
 converted = convert_list(read_txt_file(authors_path))
-write_file(json_filename, converted)
+write_json(authors_json, converted)
